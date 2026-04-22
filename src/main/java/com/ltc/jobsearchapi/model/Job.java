@@ -32,4 +32,6 @@ public class Job {
     private JobType jobType;
 
     private LocalDateTime createdAt;
+
+    // With @Builder: no parameter order bugs, constructor doesn't force you write null, just skip them
 }
