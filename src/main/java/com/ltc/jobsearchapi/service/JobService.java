@@ -27,4 +27,25 @@ public class JobService {
                 size,
                 Sort.by("createdAt").descending()
         );
+
+        Page<Job> jobs = jobRepository.searchJobs(
+                keyword,
+                location,
+                jobType,
+                pageable
+        );
+
+        return jobs.map(this::mapToDTO);
+    }
+
+    private JobResponseDTO mapToDTO(Job job) {
+        return JobResponseDTO.builder()
+                .id(job.getId())
+                .title(job.getTitle())
+                .description(job.getDescription())
+                .location(job.getLocation())
+                .jobType(job.getJobType())
+                .createdAt(job.getCreatedAt())
+                .build();
+    }
 }
