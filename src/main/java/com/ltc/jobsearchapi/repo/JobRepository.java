@@ -9,6 +9,8 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 import org.springframework.data.repository.query.Param;
 
+import java.util.List;
+
 @Repository
 public interface JobRepository extends JpaRepository<Job, Long> {
 
@@ -30,4 +32,14 @@ public interface JobRepository extends JpaRepository<Job, Long> {
             @Param("jobType") JobType jobType,
             Pageable pageable
     );
+
+    @Query("""
+    SELECT j FROM Job j
+    WHERE 
+        LOWER(j.title) LIKE LOWER(CONCAT('%', :keyword, '%'))
+        OR LOWER(j.description) LIKE LOWER(CONCAT('%', :keyword, '%'))
+    ORDER BY j.createdAt DESC
+""")
+    List<Job> findSuggestions(@Param("keyword") String keyword, Pageable pageable);
+
 }
