@@ -7,6 +7,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @RequestMapping("/api/jobs")
 @RequiredArgsConstructor
@@ -26,4 +28,11 @@ public class JobController {
     }
 
     // required = false: the request not included we get an error
+
+    @GetMapping("/suggestions")
+    public List<JobResponseDTO> getSuggestions(
+            @RequestParam String keyword
+    ) {
+        return jobService.getSuggestions(keyword);
+    }
 }

@@ -8,7 +8,8 @@ import java.time.LocalDateTime;
 @Entity
 @Table(name = "jobs", indexes = {
         @Index(name = "idx_location", columnList = "location"),
-        @Index(name = "idx_job_type", columnList = "jobType")
+        @Index(name = "idx_job_type", columnList = "jobType"),
+        @Index(name = "idx_title", columnList = "title")
 })
 @Getter
 @Setter
@@ -33,5 +34,6 @@ public class Job {
 
     private LocalDateTime createdAt;
 
-    // With @Builder: no parameter order bugs, constructor doesn't force you write null, just skip them
+    // With @Builder: no parameter order bugs, constructor doesn't force
+    // you write null, just skip them
 }

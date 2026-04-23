@@ -9,6 +9,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.*;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 @RequiredArgsConstructor
 public class JobService {
@@ -56,5 +58,20 @@ public class JobService {
                 .jobType(job.getJobType())
                 .createdAt(job.getCreatedAt())
                 .build();
+    }
+
+    public List<JobResponseDTO> getSuggestions(String keyword) {
+
+        if (keyword == null || keyword.trim().isEmpty()) {
+            throw new BadRequestException("Keyword must not be empty");
+        }
+
+        Pageable pageable = PageRequest.of(0, 5); // limit suggestions
+
+        List<Job> jobs = jobRepository.findSuggestions(keyword, pageable);
+
+        return jobs.stream()
+                .map(this::mapToDTO)
+                .toList();
     }
 }
