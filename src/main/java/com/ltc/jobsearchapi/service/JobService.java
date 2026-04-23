@@ -1,6 +1,7 @@
 package com.ltc.jobsearchapi.service;
 
 import com.ltc.jobsearchapi.dto.JobResponseDTO;
+import com.ltc.jobsearchapi.exception.BadRequestException;
 import com.ltc.jobsearchapi.model.Job;
 import com.ltc.jobsearchapi.model.JobType;
 import com.ltc.jobsearchapi.repo.JobRepository;
@@ -21,6 +22,14 @@ public class JobService {
             int page,
             int size
     ) {
+
+        if (size > 50) {
+            throw new BadRequestException("Page size cannot be greater than 50");
+        }
+
+        if (page < 0) {
+            throw new BadRequestException("Page cannot be negative");
+        }
 
         Pageable pageable = PageRequest.of(
                 page,
